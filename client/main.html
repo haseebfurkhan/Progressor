@@ -20,8 +20,12 @@
         function drop(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-            Meteor.call('updateCard', data,ev.target.id);
+            
+            if (!isNaN(ev.target.id) && ev.target.id != '')
+            {
+                ev.target.appendChild(document.getElementById(data));
+                Meteor.call('updateCard', data, ev.target.id);
+            }
         }
 
     </script>

@@ -4,6 +4,10 @@ import { Cards } from '../imports/api/cards.js';
 
 import './main.html';
  
+Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_ONLY',
+});
+
 Template.backlog.helpers({
     cards() {
         return Cards.find({stage:100});

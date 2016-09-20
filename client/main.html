@@ -7,7 +7,7 @@
     
 </head>
 <body>
-   
+   {{#if currentUser}}
     <script type="text/javascript">
         function allowDrop(ev) {
             ev.preventDefault();
@@ -81,7 +81,7 @@
             </div>
         </nav>
     </div>
-
+    
     <div class="col-md-3">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -129,7 +129,6 @@
     <div>
         {{> edittask}}
     </div>
-   
     <script type="text/javascript">
         $(document).on("click", '.editbutton', function (e) {
             jQuery.noConflict();
@@ -150,6 +149,17 @@
             $('#editTask').modal('toggle');
         });
     </script>
+   
+    {{else}}
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Progressor</h1>
+            <p>You must be logged-in to see this content.
+            {{> loginButtons align="center"}} </p>
+        </div>
+    </div>
+   
+    {{/if}}
 </body>
 
 <template name="backlog">

@@ -73,8 +73,7 @@ Template.addtask.events({
         });
         event.target.taskname.value = '';
         event.target.taskdescription.value = '';
-        event.target.taskdescription.value = '';
-        event.target.taskdescription.value = 'Future';
+        event.target.taskstage.value = 'Future';
         jQuery.noConflict();
         $('#addTask').modal('hide');
         return false;
@@ -95,6 +94,10 @@ Template.edittask.events({
                 "stage":taskstage,
                 createdAt: new Date()
             });
+
+        event.target.taskname.value = '';
+        event.target.taskdescription.value = '';
+        event.target.taskstage.value = 'Future';
 
         $('#editTask').modal('toggle');
         return false;

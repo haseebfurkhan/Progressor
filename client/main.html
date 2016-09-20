@@ -21,6 +21,7 @@
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
+            Meteor.call('updateCard', data,ev.target.id);
         }
 
     </script>
@@ -82,7 +83,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Future Tasks</h3>
             </div>
-            <div class="panel-body"   ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body" id="100" ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> backlog}}
             </div>
         </div>
@@ -92,7 +93,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Proposed Tasks</h3>
             </div>
-            <div class="panel-body"  ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body"  id="200"  ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> todo}}
             </div>
         </div>
@@ -102,7 +103,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Tasks In Progress</h3>
             </div>
-            <div class="panel-body" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body"  id="300"  ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> inprogress}}
             </div>
         </div>
@@ -112,7 +113,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Completed Tasks</h3>
             </div>
-            <div id="completed" class="panel-body" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body"  id="400"  ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> done}}
             </div>
         </div>
@@ -149,7 +150,7 @@
 
 <template name="backlog">
     {{#each cards}}
-    <div id="{{_id}}" class="blockquote-box blockquote-info effect8" draggable="true" ondragstart="drag(event)">
+    <div id="{{_id}}" class="blockquote-box blockquote-info effect8 card" draggable="true" ondragstart="drag(event)">
         {{> card}}
     </div>
     {{/each}}
@@ -157,7 +158,7 @@
 
 <template name="todo">
     {{#each cards}}
-    <div id="{{_id}}" class="blockquote-box blockquote-warning effect8" draggable="true" ondragstart="drag(event)">
+    <div id="{{_id}}" class="blockquote-box blockquote-warning effect8 card" draggable="true" ondragstart="drag(event)">
         {{> card}}
     </div>
     {{/each}}
@@ -165,7 +166,7 @@
 
 <template name="inprogress">
     {{#each cards}}
-    <div id="{{_id}}" class="blockquote-box blockquote-primary effect8" draggable="true" ondragstart="drag(event)">
+    <div id="{{_id}}" class="blockquote-box blockquote-primary effect8 card" draggable="true" ondragstart="drag(event)">
         {{> card}}
     </div>
     {{/each}}
@@ -173,7 +174,7 @@
 
 <template name="done">
     {{#each cards}}
-    <div id="{{_id}}" class="blockquote-box blockquote-success effect8" draggable="true" ondragstart="drag(event)">
+    <div id="{{_id}}" class="blockquote-box blockquote-success effect8 card" draggable="true" ondragstart="drag(event)">
         {{> card}}
     </div>
     {{/each}}

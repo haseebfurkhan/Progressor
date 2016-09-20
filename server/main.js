@@ -1,7 +1,17 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/cards.js';
+import { Cards } from '../imports/api/cards.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
-  //Cards.find().fetch();
+    //Cards.find().fetch();
+    
+    Meteor.methods({
+        'updateCard': function(taskid,taskstage){
+            Cards.update({'_id':taskid},
+                { $set: { "stage":parseInt(taskstage)}}
+               );
+            return false;
+        }
+    });
+
 });

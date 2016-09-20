@@ -1,0 +1,277 @@
+<head>
+    <title>Progress List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+   
+    <script type="text/javascript">
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+
+    </script>
+
+    <div>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" style="color:white"  href="#">Progressor</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <!--<ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Link</a></li>
+                    </ul>-->
+                    <div class="navbar-form navbar-right">
+                         <button type="button" class="btn btn-default" id="button1" data-toggle="modal" data-target="#addTask">Add New Task</button>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Future Tasks</h3>
+            </div>
+            <div class="panel-body"   ondrop="drop(event)" ondragover="allowDrop(event)">
+                {{> backlog}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Proposed Tasks</h3>
+            </div>
+            <div class="panel-body"  ondrop="drop(event)" ondragover="allowDrop(event)">
+                {{> todo}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tasks In Progress</h3>
+            </div>
+            <div class="panel-body" ondrop="drop(event)" ondragover="allowDrop(event)">
+                {{> inprogress}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3" >
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Completed Tasks</h3>
+            </div>
+            <div id="completed" class="panel-body" ondrop="drop(event)" ondragover="allowDrop(event)">
+                {{> done}}
+            </div>
+        </div>
+    </div>
+
+    <div>
+       {{> addtask}}
+    </div>
+    <div>
+        {{> edittask}}
+    </div>
+   
+    <script type="text/javascript">
+        $(document).on("click", '.editbutton', function (e) {
+            jQuery.noConflict();
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var description = $(this).data('description');
+            var stage = $(this).data('stage');
+
+            $("#editTaskId").val(id);
+            $("#editTaskName").val(name);
+            $("#editTaskDescription").val(description);
+            $("#editTaskStage").val(stage);
+
+            console.log(id);
+            console.log(name);
+            console.log(description);
+            console.log(stage);
+            $('#editTask').modal('toggle');
+        });
+    </script>
+</body>
+
+<template name="backlog">
+    {{#each cards}}
+    <div id="{{_id}}" class="blockquote-box blockquote-info effect8" draggable="true" ondragstart="drag(event)">
+        {{> card}}
+    </div>
+    {{/each}}
+</template>
+
+<template name="todo">
+    {{#each cards}}
+    <div id="{{_id}}" class="blockquote-box blockquote-warning effect8" draggable="true" ondragstart="drag(event)">
+        {{> card}}
+    </div>
+    {{/each}}
+</template>
+
+<template name="inprogress">
+    {{#each cards}}
+    <div id="{{_id}}" class="blockquote-box blockquote-primary effect8" draggable="true" ondragstart="drag(event)">
+        {{> card}}
+    </div>
+    {{/each}}
+</template>
+
+<template name="done">
+    {{#each cards}}
+    <div id="{{_id}}" class="blockquote-box blockquote-success effect8" draggable="true" ondragstart="drag(event)">
+        {{> card}}
+    </div>
+    {{/each}}
+</template>
+
+<template name="card">
+    <div class="list-group-item">
+        <h5 class="list-group-item-heading">
+            <span class="info"> {{task}} </span>
+            <button class="btn btn-danger pull-right btn-sm delete-this" style="margin:5px">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            &nbsp;&nbsp;
+            <button class="btn btn-warning pull-right btn-sm editbutton" data-name="{{task}}" data-description="{{description}}" data-id="{{_id}}" data-stage="{{stage}}" style="margin:5px">
+                <span class="glyphicon glyphicon-edit"></span>
+            </button>
+
+        </h5>
+        <div class="list-group-item-text">
+            {{description}}
+        </div>
+    </div>
+</template>
+
+<template name="addtask">
+    <!-- Modal -->
+    <div id="addTask" class="modal fade" role="dialog">
+        <form class="add-task">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color:white">Add New Task</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="taskname" placeholder="Task Name" />
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" type="textarea" name="taskdescription" placeholder="Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleSelect1">Select Stage</label>
+                                <select class="form-control form-control-lg" id="select" name="taskstage"  placeholder="taskstage">
+                                    <option>Future</option>
+                                    <option>Proposed</option>
+                                    <option>In Progress</option>
+                                    <option>Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input class="btn btn-primary pull-right" type="submit" value="Add Task" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>
+
+
+<template name="edittask">
+    <!-- Modal -->
+    <div id="editTask" class="modal fade" role="dialog">
+        <form class="edit-task">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color:white">Edit Task</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <input class="hidden" type="text" name="taskid" id="editTaskId" />
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="taskname" placeholder="Task Name" id="editTaskName" />
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" type="textarea" name="taskdescription" placeholder="Description" id="editTaskDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleSelect1">Select Stage</label>
+                                <select class="form-control form-control-lg" id="editTaskStage" name="taskstage" placeholder="taskstage">
+                                    <option value="100">Future</option>
+                                    <option value="200">Proposed</option>
+                                    <option value="300">In Progress</option>
+                                    <option value="400">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input class="btn btn-primary pull-right" type="submit" value="Update" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>

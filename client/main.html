@@ -1,169 +1,178 @@
 <head>
     <title>Progress List</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
     <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-    {{#if currentUser}}
-    <script type="text/javascript">
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-
-            if (!isNaN(ev.target.id) && ev.target.id != '') {
-                ev.target.appendChild(document.getElementById(data));
-                Meteor.call('updateCard', data, ev.target.id);
+    <div>
+        {{#if currentUser}}
+        <script type="text/javascript">
+            function allowDrop(ev) {
+                ev.preventDefault();
             }
-        }
 
-    </script>
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
 
-    <div>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" style="color:white" href="#">Progressor</a>
-                </div>
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                    <!--<ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                if (!isNaN(ev.target.id) && ev.target.id != '') {
+                    ev.target.appendChild(document.getElementById(data));
+                    Meteor.call('updateCard', data, ev.target.id);
+                }
+            }
+        </script>
+
+        <div>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" style="color:white" href="#">Progr>ssor</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                        <!--<ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">Link</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Link</a></li>
+                        </ul>-->
+
+                        <div class="navbar-form navbar-right">
+                            {{> atNavButton }}
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
-                    </ul>-->
-                   
-                    <div class="navbar-form navbar-right">
-                        {{> atNavButton }}
-                    </div>
-                    <div class="navbar-form navbar-right">
-                        
-                        <button type="button" class="btn btn-default" id="button1" data-toggle="modal" data-target="#addTask">Add New Task </button>
-                    </div>
-                    <div class="navbar-form navbar-right">
-                       <h6 style="color:white">Welcome, <b>{{currentUser.emails.[0].address}}</b></h6>
+                        <div class="navbar-form navbar-right">
+
+                            <button type="button" class="btn btn-default" id="button1" data-toggle="modal" data-target="#addTask">Add New Task </button>
+                        </div>
+                        <div class="navbar-form navbar-right">
+                            <h6 style="color:white">Welcome, <b>{{currentUser.emails.[0].address}}</b></h6>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
 
-    <div class="col-md-3">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Future Tasks</h3>
-            </div>
-            <div class="panel-body" id="100" ondrop="drop(event)" ondragover="allowDrop(event)">
-                {{> backlog}}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h3 class="panel-title">Proposed Tasks</h3>
-            </div>
-            <div class="panel-body" id="200" ondrop="drop(event)" ondragover="allowDrop(event)">
-                {{> todo}}
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Future Tasks</h3>
+                </div>
+                <div class="panel-body" id="100" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {{> backlog}}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Tasks In Progress</h3>
-            </div>
-            <div class="panel-body" id="300" ondrop="drop(event)" ondragover="allowDrop(event)">
-                {{> inprogress}}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h3 class="panel-title">Completed Tasks</h3>
-            </div>
-            <div class="panel-body" id="400" ondrop="drop(event)" ondragover="allowDrop(event)">
-                {{> done}}
+        <div class="col-md-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Proposed Tasks</h3>
+                </div>
+                <div class="panel-body" id="200" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {{> todo}}
+                </div>
             </div>
         </div>
-    </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tasks In Progress</h3>
+                </div>
+                <div class="panel-body" id="300" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {{> inprogress}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Completed Tasks</h3>
+                </div>
+                <div class="panel-body" id="400" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {{> done}}
+                </div>
+            </div>
+        </div>
 
+        <div>
+            {{> addtask}}
+        </div>
+        <div>
+            {{> edittask}}
+        </div>
+        <script type="text/javascript">
+            $(document).on("click", '.editbutton', function (e) {
+                jQuery.noConflict();
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var description = $(this).data('description');
+                var stage = $(this).data('stage');
+
+                $("#editTaskId").val(id);
+                $("#editTaskName").val(name);
+                $("#editTaskDescription").val(description);
+                $("#editTaskStage").val(stage);
+
+                console.log(id);
+                console.log(name);
+                console.log(description);
+                console.log(stage);
+                $('#editTask').modal('toggle');
+            });
+        </script>
+        <script type="text/javascript">
+            $("#at-nav-button").removeClass("btn-default navbar-btn").addClass("btn-danger");
+        </script>
+
+        {{else}}
+
+        <div class="container">
+            <h1 class="text-primary" style="text-align:center">Progr>ssor</h1>
+            {{> fullPageAtForm }}
+        </div>
+        <script type="text/javascript">
+            $("#at-btn").addClass("btn-primary");
+        </script>
+        {{/if}}
+    </div>
     <div>
-        {{> addtask}}
+        <footer class="footer" style="text-align:center">
+            <div class="container">
+                <p class="text-muted">Designed and Developed by Haseeb Furkhan. </p>
+            </div>
+        </footer>
     </div>
-    <div>
-        {{> edittask}}
-    </div>
-    <script type="text/javascript">
-        $(document).on("click", '.editbutton', function (e) {
-            jQuery.noConflict();
-            var id = $(this).data('id');
-            var name = $(this).data('name');
-            var description = $(this).data('description');
-            var stage = $(this).data('stage');
-
-            $("#editTaskId").val(id);
-            $("#editTaskName").val(name);
-            $("#editTaskDescription").val(description);
-            $("#editTaskStage").val(stage);
-
-            console.log(id);
-            console.log(name);
-            console.log(description);
-            console.log(stage);
-            $('#editTask').modal('toggle');
-        });
-    </script>
-    <script type="text/javascript">
-        $("#at-nav-button").removeClass("btn-default navbar-btn").addClass("btn-danger");
-    </script>
-    {{else}}
-    
-    <div class="container">
-        <h1 class="text-primary" style="text-align:center">Progressor</h1>
-        {{> fullPageAtForm }}
-    </div>
-    <script type="text/javascript">
-        $("#at-btn").addClass("btn-primary");
-    </script>
-    {{/if}}
 </body>
 
 <template name="backlog">

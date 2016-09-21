@@ -4,10 +4,10 @@
     <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
 </head>
 <body>
-   {{#if currentUser}}
+    {{#if currentUser}}
     <script type="text/javascript">
         function allowDrop(ev) {
             ev.preventDefault();
@@ -20,9 +20,8 @@
         function drop(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
-            
-            if (!isNaN(ev.target.id) && ev.target.id != '')
-            {
+
+            if (!isNaN(ev.target.id) && ev.target.id != '') {
                 ev.target.appendChild(document.getElementById(data));
                 Meteor.call('updateCard', data, ev.target.id);
             }
@@ -40,7 +39,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" style="color:white"  href="#">Progressor</a>
+                    <a class="navbar-brand" style="color:white" href="#">Progressor</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
@@ -69,20 +68,22 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Link</a></li>
                     </ul>-->
+                   
                     <div class="navbar-form navbar-right">
-                        <!--<div style="background-color:white;padding:5px 5px 5px 5px;color:black" class="text-warning">
-                                  {{> loginButtons align="right"}}
-                        </div>-->
-                            {{> dashboard}}
+                        {{> atNavButton }}
                     </div>
                     <div class="navbar-form navbar-right">
-                        <button type="button" class="btn btn-default" id="button1" data-toggle="modal" data-target="#addTask">Add New Task</button>
+                        
+                        <button type="button" class="btn btn-default" id="button1" data-toggle="modal" data-target="#addTask">Add New Task </button>
+                    </div>
+                    <div class="navbar-form navbar-right">
+                       <h6 style="color:white">Welcome, <b>{{currentUser.emails.[0].address}}</b></h6>
                     </div>
                 </div>
             </div>
         </nav>
     </div>
-    
+
     <div class="col-md-3">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -98,7 +99,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Proposed Tasks</h3>
             </div>
-            <div class="panel-body"  id="200"  ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body" id="200" ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> todo}}
             </div>
         </div>
@@ -108,24 +109,24 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Tasks In Progress</h3>
             </div>
-            <div class="panel-body"  id="300"  ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body" id="300" ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> inprogress}}
             </div>
         </div>
     </div>
-    <div class="col-md-3" >
+    <div class="col-md-3">
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Completed Tasks</h3>
             </div>
-            <div class="panel-body"  id="400"  ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="panel-body" id="400" ondrop="drop(event)" ondragover="allowDrop(event)">
                 {{> done}}
             </div>
         </div>
     </div>
 
     <div>
-       {{> addtask}}
+        {{> addtask}}
     </div>
     <div>
         {{> edittask}}
@@ -150,31 +151,18 @@
             $('#editTask').modal('toggle');
         });
     </script>
-   
+    <script type="text/javascript">
+        $("#at-nav-button").removeClass("btn-default navbar-btn").addClass("btn-danger");
+    </script>
     {{else}}
+    
     <div class="container">
-        <!--<div class="jumbotron">
-            <h1>Progressor</h1>
-            <p>You must be logged-in to see this content.
-            {{> loginButtons align="center"}} </p>
-        </div>-->
-        <h1>Progressor</h1>
-        
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Login</a></li>
-            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Register</a></li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="home">
-               {{> login}}
-            </div>
-            <div class="tab-pane fade" id="profile">
-               {{> register}}
-            </div>
-        </div>
-
+        <h1 class="text-primary" style="text-align:center">Progressor</h1>
+        {{> fullPageAtForm }}
     </div>
-   
+    <script type="text/javascript">
+        $("#at-btn").addClass("btn-primary");
+    </script>
     {{/if}}
 </body>
 
@@ -250,7 +238,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleSelect1">Select Stage</label>
-                                <select class="form-control form-control-lg" id="select" name="taskstage"  placeholder="taskstage">
+                                <select class="form-control form-control-lg" id="select" name="taskstage" placeholder="taskstage">
                                     <option>Future</option>
                                     <option>Proposed</option>
                                     <option>In Progress</option>
@@ -309,39 +297,4 @@
             </div>
         </form>
     </div>
-</template>
-
-<template name="dashboard">
-    <p><a href="#" class="btn btn-danger logout">Logout</a></p>
-</template>
-
-<template name="register">
-    <form class="form-signin">
-        <h5>Register</h5>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="registerEmail" required autofocus>
-        <br />
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="registerPassword" required>
-        <br />
-        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
-    </form>
-</template>
-
-<template name="login">
-        <form class="form-signin">
-            <h5>Please sign in</h5>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="loginEmail" required autofocus>
-            <br />
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="loginPassword" required>
-            <br />
-            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
-        </form>
-    <!--<form>
-        <input type="email" name="loginEmail">
-        <input type="password" name="loginPassword">
-        <input type="submit" value="Login">
-    </form>-->
 </template>

@@ -1,37 +1,33 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Cards } from '../imports/api/cards.js';
+import { Accounts } from 'meteor/accounts-base'
 
 import './main.html';
  
-Accounts.ui.config({
-    passwordSignupFields: 'USERNAME_ONLY',
-});
-
 Template.backlog.helpers({
     cards() {
-        return Cards.find({stage:100});
+        return Cards.find({stage:100,userId:Meteor.userId()});
     },
 });
 
-
 Template.todo.helpers({
     cards() {
-        return Cards.find({stage:200});
+        return Cards.find({stage:200,userId:Meteor.userId()});
     },
 });
 
 
 Template.inprogress.helpers({
     cards() {
-        return Cards.find({stage:300});
+        return Cards.find({stage:300,userId:Meteor.userId()});
     },
 });
 
 
 Template.done.helpers({
     cards() {
-        return Cards.find({stage:400});
+        return Cards.find({stage:400,userId:Meteor.userId()});
     },
 });
 
@@ -48,6 +44,7 @@ Template.card.events({
 
 Template.addtask.events({
     "submit .add-task": function(event){
+        var currentUserId = Meteor.userId();
         var taskname = event.target.taskname.value;
         var taskdescription = event.target.taskdescription.value;
         var taskstage;
@@ -66,6 +63,7 @@ Template.addtask.events({
                 break;
         }
         Cards.insert({
+            userId: currentUserId,
             task: taskname,
             description: taskdescription,
             stage: taskstage,
@@ -82,6 +80,7 @@ Template.addtask.events({
 
 Template.edittask.events({
     "submit .edit-task": function(event){
+        var currentUserId = Meteor.userId();
         var taskid = event.target.taskid.value;
         var taskname = event.target.taskname.value;
         var taskdescription = event.target.taskdescription.value;
@@ -89,6 +88,7 @@ Template.edittask.events({
 
         Cards.update({'_id':taskid},
             {
+                "userId": currentUserId,
                 "task" : taskname,
                 "description" : taskdescription,
                 "stage":taskstage,
@@ -104,28 +104,56 @@ Template.edittask.events({
     }
 });
 
-Template.dashboard.events({
-    'click .logout': function(event){
-        event.preventDefault();
-        Meteor.logout();
-    }
+AccountsTemplates.configure({
+    // Behavior
+    confirmPassword: true,
+    enablePasswordChange: false,
+    forbidClientAccountCreation: false,
+    overrideLoginErrors: true,
+    sendVerificationEmail: false,
+    lowercaseUsername: false,
+    focusFirstInput: true,
+
+    // Appearance
+    showAddRemoveServices: false,
+    showForgotPasswordLink: true,
+    showLabels: true,
+    showPlaceholders: true,
+    showResendVerificationEmailLink: false,
+
+    // Client-side Validation
+    continuousValidation: false,
+    negativeFeedback: false,
+    negativeValidation: true,
+    positiveValidation: true,
+    positiveFeedback: true,
+    showValidating: true,
+
+    // Texts
+    texts: {
+        button: {
+            signUp: "Register Now!"
+        },
+        socialSignUp: "Register",
+        socialIcons: {
+            "meteor-developer": "fa fa-rocket"
+        },
+        title: {
+            forgotPwd: "Recover Your Password"
+        },
+    },
 });
-Template.register.events({
-    'submit form': function(event){
-        event.preventDefault();
-        var emailVar = event.target.registerEmail.value;
-        var passwordVar = event.target.registerPassword.value;
-        Accounts.createUser({
-            email: emailVar,
-            password: passwordVar
-        });
-    }
-});
-Template.login.events({
-    'submit form': function(event){
-        event.preventDefault();
-        var emailVar = event.target.loginEmail.value;
-        var passwordVar = event.target.loginPassword.value;
-        Meteor.loginWithPassword(emailVar, passwordVar);
-    }
-});
+
+//Router.route('forgot password', {
+//    name: 'edittask',
+//    template: 'edittask'
+//});
+
+////Routes
+//AccountsTemplates.configureRoute('signIn');
+//AccountsTemplates.configureRoute('signUp', {
+//    path: '/register'
+//});
+//AccountsTemplates.configureRoute('forgotPwd');
+//AccountsTemplates.configureRoute('resetPwd');
+//AccountsTemplates.configureRoute('changePwd');

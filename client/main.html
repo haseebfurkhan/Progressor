@@ -134,21 +134,24 @@
         <script type="text/javascript">
             $(document).on("click", '.editbutton', function (e) {
                 jQuery.noConflict();
-                var id = $(this).data('id');
-                var name = $(this).data('name');
-                var description = $(this).data('description');
-                var stage = $(this).data('stage');
-
+               
+				var id = $(this).attr('data-id');
+				var name = $(this).attr('data-name');
+				var description = $(this).attr('data-description');
+				var stage = $(this).attr('data-stage');
+                
                 $("#editTaskId").val(id);
                 $("#editTaskName").val(name);
                 $("#editTaskDescription").val(description);
                 $("#editTaskStage").val(stage);
 
-                console.log(id);
-                console.log(name);
-                console.log(description);
-                console.log(stage);
-                $('#editTask').modal('toggle');
+                id='';
+				name='';
+				description='';
+				stage='';
+				
+				$('#editTask').modal('toggle');
+				
             });
         </script>
         <script type="text/javascript">
